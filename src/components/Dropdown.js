@@ -15,12 +15,17 @@ const Dropdown = () => {
       <ul className="dropdown-menu">
         <li>
           <a className="dropdown-item" href="#">
-            Show All
+            Show Characters
           </a>
         </li>
         <li>
           <a className="dropdown-item" href="#">
-          Show Alphabetically
+          Show Locations
+          </a>
+        </li>
+        <li>
+          <a className="dropdown-item" href="#">
+          Show Episodes
           </a>
         </li>
       </ul>

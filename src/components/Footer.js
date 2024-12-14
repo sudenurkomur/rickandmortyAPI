@@ -11,7 +11,7 @@ const Footer = () => {
       bottom: 0, 
       width: "100%" 
     }}>
-      <p>&copy; 2024 My React App. All rights reserved.</p>
+      <p>&copy; 2024 Sude Nur's React Case. All rights reserved.</p>
     </footer>
   );
 };
