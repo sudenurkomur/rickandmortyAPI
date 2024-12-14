@@ -1,34 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Dropdown.css"; // dropdown.css dosyasını import ettik
 
 const Dropdown = () => {
+  const [selectedFilter, setSelectedFilter] = useState("");
+
+  const handleChange = (event) => {
+    setSelectedFilter(event.target.value);
+    // Seçim değiştiğinde yapılacak işlemler
+  };
+
   return (
     <div className="dropdown">
-      <button
-        className="btn btn-primary dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
+      <select
+        className="form-select"
+        aria-label="Filter"
+        value={selectedFilter}
+        onChange={handleChange}
       >
-        Filter
-      </button>
-      <ul className="dropdown-menu">
-        <li>
-          <a className="dropdown-item" href="#">
-            Show Characters
-          </a>
-        </li>
-        <li>
-          <a className="dropdown-item" href="#">
-          Show Locations
-          </a>
-        </li>
-        <li>
-          <a className="dropdown-item" href="#">
-          Show Episodes
-          </a>
-        </li>
-      </ul>
+        <option value="" disabled>
+          Filter
+        </option>
+        <option value="filter">Filter</option>
+        <option value="characters">Show Characters</option>
+        <option value="locations">Show Locations</option>
+        <option value="episodes">Show Episodes</option>
+      </select>
     </div>
   );
 };

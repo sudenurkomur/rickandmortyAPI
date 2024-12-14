@@ -1,23 +1,47 @@
+/* Sayfa düzeni */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Sayfanın yüksekliği en az ekran boyutunda olacak */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Ana içeriğin tüm alanı kaplamasını sağlar */
+}
+
+.main-content {
+  flex-grow: 1; /* İçerik, sayfa uzunluğuna göre büyür */
+}
+
+/* Footer stilleri */
+footer {
+  background-color: #001f3f;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  position: relative;
+  width: 100%;
+}
+
 /* Dropdown ve SearchBar'ı aynı satıra yerleştirmek için flex kullanıyoruz */
 .dropdown-container {
-    display: flex;
-    justify-content: center; /* Ortalanacak */
-    margin-top: 1rem; /* Üstten boşluk ekliyoruz */
-    gap: 1rem; /* Dropdown ve SearchBar arasındaki mesafeyi ayarlıyoruz */
-  }
-  
-  .searchbar-container {
-    display: flex;
-    justify-content: center; /* Ortalanacak */
-    gap: 1rem; /* Aralarındaki mesafeyi ayarlıyoruz */
-  }
-  
-  /* Diğer stil ayarları */
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: #333; /* Metin rengi koyu gri */
-  }
-  
+  display: flex;
+  justify-content: center; /* Ortalanacak */
+  margin-top: 1rem; /* Üstten boşluk ekliyoruz */
+  gap: 1rem; /* Dropdown ve SearchBar arasındaki mesafeyi ayarlıyoruz */
+  width: 100%; /* Tam genişlik */
+  padding: 0 1rem; /* Sağ ve sol boşluk ekliyoruz */
+}
 
-  
+.searchbar-container {
+  display: flex;
+  justify-content: center; /* Ortalanacak */
+  gap: 1rem; /* Aralarındaki mesafeyi ayarlıyoruz */
+  width: 100%; /* Tam genişlik */
+  padding: 0 1rem; /* Sağ ve sol boşluk ekliyoruz */
+}

@@ -1,40 +1,38 @@
 /* Dropdown component için stil */
 .dropdown {
-    display: flex;
-    justify-content: center; /* Yatayda ortalama */
-    margin-top: 2rem;
-  }
-  
-  .dropdown button {
-    width: 250px; /* Filter butonunun genişliğini artırıyoruz */
-    padding: 15px 20px; /* Butonun içindeki yazının rahatça görünmesi için iç boşluk ekliyoruz */
-    font-size: 18px; /* Butonun font büyüklüğünü artırıyoruz */
-    text-align: center; /* Butonun metnini ortalıyoruz */
-  }
-  
-  .dropdown-menu {
-    background-color: white;
-    padding: 0; /* Menü öğelerinin arasında boşluk olmaması için */
-    list-style-type: none; /* Liste işaretlerini kaldırdık */
-    margin: 0; /* Menü etrafındaki boşlukları sıfırladık */
-    width: 250px; /* Menü genişliğini buton ile uyumlu yapıyoruz */
-    border-radius: 5px; /* Kenarları yuvarlatıyoruz */
-  }
-  
-  .dropdown-item {
-    background-color: white;
-    color: black; /* Yazıyı siyah yapıyoruz */
-    border: none;
-    padding: 15px 20px; /* Daha geniş butonlar */
-    margin: 5px 0; /* Menü öğeleri arasında yatayda mesafe */
-    cursor: pointer;
-    font-size: 18px; /* Font büyüklüğünü artırıyoruz */
-    border-radius: 4px;
-    text-align: center; /* İçeriği yatayda ortalıyoruz */
-  }
-  
-  .dropdown-item:hover {
-    background-color: rgb(0, 28, 139); /* Hover durumunda koyu kırmızı */
-    color: white; /* Hover durumunda yazı rengi beyaz olacak */
-  }
-  
+  display: flex;
+  justify-content: center; /* Yatayda ortalıyoruz */
+  margin-top: 2rem; /* Üstten boşluk ekliyoruz */
+}
+
+/* Dropdown select stilini eski buton stiline yakın hale getiriyoruz */
+.dropdown select {
+  width: 250px; /* Dropdown genişliğini artırıyoruz */
+  padding: 15px 20px; /* İç boşluk ekliyoruz */
+  font-size: 18px; /* Font büyüklüğünü artırıyoruz */
+  text-align: center; /* Yazıyı ortalıyoruz */
+  border-radius: 5px; /* Kenarları yuvarlatıyoruz */
+  border: 1px solid #ccc; /* Hafif gri bir kenarlık */
+  background-color: #358be2; /* Düz açık mavi renk */
+  color: white; /* Yazı rengini beyaz yapıyoruz */
+  cursor: pointer;
+}
+
+/* Seçenekler için stil */
+.dropdown option {
+  font-size: 18px; /* Font büyüklüğünü artırıyoruz */
+  padding: 15px 20px; /* İç boşluk ekliyoruz */
+  text-align: center; /* Metni ortalıyoruz */
+  background-color: white;
+  color: black; /* Yazı rengini siyah yapıyoruz */
+}
+
+/* Seçenek hover etkisi */
+.dropdown select:hover {
+  background-color: #4da6ff; /* Hover durumunda daha yoğun bir mavi */
+}
+
+.dropdown option:hover {
+  background-color: #4da6ff; /* Hover durumunda seçeneğin arka planı yoğun mavi */
+  color: white; /* Hover durumunda yazı rengi beyaz olacak */
+}
