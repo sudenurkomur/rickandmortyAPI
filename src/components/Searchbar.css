@@ -1,0 +1,29 @@
+/* Arama çubuğu stilini dropdown stiline benzetiyoruz */
+
+/* Arama çubuğu genel stil */
+.search-bar {
+    padding: 10px 20px; /* İçerik daha geniş olacak */
+    font-size: 16px; /* Yazı boyutu */
+    border: 2px solid #0000FF; /* Lacivert sınır rengi */
+    border-radius: 4px;
+    outline: none;
+    width: 250px; /* Arama çubuğunun genişliğini artırıyoruz */
+    margin-top: 2rem; /* Üstten boşluk ekliyoruz */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Gölgelendirme ekliyoruz */
+  }
+  
+  /* Arama çubuğu odaklandığında stil */
+  .search-bar:focus {
+    border-color: darkred; /* Odaklanınca kırmızıya döner */
+  }
+  
+  /* Arama çubuğu içinde yazı ile buton arasında uygun boşluk sağlamak */
+  .search-bar:focus {
+    transition: border-color 0.3s ease; /* Sınır rengi değişimi daha yumuşak olacak */
+  }
+  
+  /* Arama çubuğu için hover efekti */
+  .search-bar:hover {
+    border-color: #b21f1f; /* Hover durumunda kırmızı */
+  }
+  

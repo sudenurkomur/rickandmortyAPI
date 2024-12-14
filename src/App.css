@@ -1,0 +1,23 @@
+/* Dropdown ve SearchBar'ı aynı satıra yerleştirmek için flex kullanıyoruz */
+.dropdown-container {
+    display: flex;
+    justify-content: center; /* Ortalanacak */
+    margin-top: 1rem; /* Üstten boşluk ekliyoruz */
+    gap: 1rem; /* Dropdown ve SearchBar arasındaki mesafeyi ayarlıyoruz */
+  }
+  
+  .searchbar-container {
+    display: flex;
+    justify-content: center; /* Ortalanacak */
+    gap: 1rem; /* Aralarındaki mesafeyi ayarlıyoruz */
+  }
+  
+  /* Diğer stil ayarları */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333; /* Metin rengi koyu gri */
+  }
+  
+
+  
