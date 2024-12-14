@@ -1,10 +1,11 @@
 import React from "react";
+import logo from "../assets/images/logo.png";  // Logo dosyasını doğru yoldan içe aktarın
 import "./Navbar.css";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <h1>Rick and Morty</h1>
+      <img src={logo} alt="Logo" className="navbar-logo" />
     </nav>
   );
 };

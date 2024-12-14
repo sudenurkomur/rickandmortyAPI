@@ -1,7 +1,13 @@
 .navbar {
-    background-color: #001f3f; /* Lacivert */
-    color: white;
-    padding: 15px;
-    text-align: center;
-  }
-  
+  background-color: #001f3f; /* Lacivert */
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+/* Logo için stil */
+.navbar-logo {
+  height: 50px;   /* Logo yüksekliğini belirleyin */
+  width: auto;    /* Genişlik orantılı olarak ayarlanacak */
+  margin-left: 20px; /* Sol taraftan 20px boşluk bırakıyoruz, logoyu sağa kaydırıyor */
+}
