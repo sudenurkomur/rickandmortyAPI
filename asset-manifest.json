@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/sudenurkomur.github.io/static/css/main.968bd171.css",
+    "main.js": "/sudenurkomur.github.io/static/js/main.8fcfe185.js",
+    "static/media/logo.png": "/sudenurkomur.github.io/static/media/logo.ee0728d37d964ffaa011.png",
+    "index.html": "/sudenurkomur.github.io/index.html",
+    "main.968bd171.css.map": "/sudenurkomur.github.io/static/css/main.968bd171.css.map",
+    "main.8fcfe185.js.map": "/sudenurkomur.github.io/static/js/main.8fcfe185.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.968bd171.css",
+    "static/js/main.8fcfe185.js"
+  ]
+}
