@@ -2,7 +2,7 @@
 .table-container {
   margin: 20px auto;
   max-width: 80%;
-  margin-top: 2rem; /* Üstten boşluk ekliyoruz */
+  margin-top: 2rem; /* Üstten boşluk */
 }
 
 .character-table {
@@ -18,7 +18,7 @@
 }
 
 .character-table th {
-  background-color: #c57f0f; /* Lacivert */
+  background-color: #c57f0f; 
   color: white;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .pagination button {
-  background-color: #0074D9; /* Mavi */
+  background-color: #0074D9; 
   color: white;
   border: none;
   padding: 8px 16px;
@@ -57,4 +57,23 @@
 .pagination span {
   font-size: 16px;
   font-weight: bold;
+}
+
+/* Filtre ve arama kutularının düzeni */
+.filter-controls {
+  display: flex;
+  gap: 20px; /* Elemanlar arasında boşluk bırakır*/
+  align-items: center; /* Dikeyde ortalama sağlanan kısım*/
+  margin-bottom: 20px; /* Filtre kontrolü ile tablo arasındaki space*/
+}
+
+.filter-controls label {
+  margin-right: 8px; /* Etiketlerle input arasına boşluk ekler */
+}
+
+.filter-controls select, .filter-controls input {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }

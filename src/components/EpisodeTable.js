@@ -11,6 +11,7 @@ const EpisodeTable = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("time"); // Filtre durumu
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchEpisodes = async () => {
@@ -79,9 +80,22 @@ const EpisodeTable = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
+    setCurrentPage(1); // Arama sırasında sayfa sıfırlanır
+  };
+
   const indexOfLastEpisode = currentPage * episodesPerPage;
   const indexOfFirstEpisode = indexOfLastEpisode - episodesPerPage;
-  const currentEpisodes = episodes.slice(indexOfFirstEpisode, indexOfLastEpisode);
+
+  const filteredEpisodes = episodes.filter((episode) =>
+    episode.name.toLowerCase().includes(searchTerm)
+  );
+
+  const currentEpisodes = filteredEpisodes.slice(
+    indexOfFirstEpisode,
+    indexOfLastEpisode
+  );
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -102,30 +116,44 @@ const EpisodeTable = () => {
 
   return (
     <div className="table-container">
-      <h2>Episodes</h2>
-      <div>
-        <label htmlFor="episodesPerPage">Episodes per page: </label>
-        <select
-          id="episodesPerPage"
-          value={episodesPerPage}
-          onChange={handleEpisodesPerPageChange}
-        >
-          <option value={5}>5</option>
-          <option value={8}>8</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="filter">Filter: </label>
-        <select id="filter" value={filter} onChange={handleFilterChange}>
-          <option value="time">Filter with time</option>
-          <option value="alphabetically">Alphabetically A-Z</option>
-        </select>
+      <div className="filter-controls">
+        <div>
+          <label htmlFor="episodesPerPage">Items per page: </label>
+          <select
+            id="episodesPerPage"
+            value={episodesPerPage}
+            onChange={handleEpisodesPerPageChange}
+          >
+            <option value={5}>5</option>
+            <option value={8}>8</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
+        </div>
+        <br />
+        <div>
+          <label htmlFor="filter">Filter: </label>
+          <select id="filter" value={filter} onChange={handleFilterChange}>
+            <option value="time">Filter with time</option>
+            <option value="alphabetically">Sort Names</option>
+          </select>
+        </div>
+        <br />
+        <div>
+          <label htmlFor="search">Search: </label>
+          <input
+            type="text"
+            id="search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            placeholder="Search by name"
+          />
+        </div>
       </div>
 
       <table className="character-table">
         <thead>
+          <h2>Episodes</h2>
           <tr>
             <th>Episode</th>
             <th>Name</th>
@@ -154,9 +182,14 @@ const EpisodeTable = () => {
           Previous
         </button>
         <span>
-          Page {currentPage} of {totalPages}
+          Page {currentPage} of {Math.ceil(filteredEpisodes.length / episodesPerPage)}
         </span>
-        <button onClick={nextPage} disabled={currentPage === totalPages}>
+        <button
+          onClick={nextPage}
+          disabled={
+            currentPage === Math.ceil(filteredEpisodes.length / episodesPerPage)
+          }
+        >
           Next
         </button>
       </div>
