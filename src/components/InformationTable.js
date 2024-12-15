@@ -4,11 +4,49 @@ import "./Table.css";
 const CharacterTable = () => {
   // Sabit karakter verileri
   const characters = [
-    { id: 1, name: "Filter", description: "Scientist, inventor, and the grandpa of Morty." },
-    { id: 2, name: "Show Characters", description: "Rick's grandson, often dragged into dangerous adventures.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics." },
-    { id: 3, name: "Show Locations", description: "Rick's granddaughter, often more responsible than Morty.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics." },
-    { id: 4, name: "Show Episodes", description: "Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics.Rick's daughter, a veterinarian who struggles with family dynamics." },
-    
+    {
+      id: 1,
+      name: "Navigation Bar",
+      description: [
+        "As you can see in the Navigation Bar, there are four different options.",
+        "You can get information about project usage by selecting Main Page.",
+        "You can choose to view Episodes, Characters and Locations information."
+      ]
+    },
+    {
+      id: 2,
+      name: "Episodes",
+      description: [
+        "Season and Episode Numbers",
+        "Episode Names",
+        "Release Dates",
+        "Names of the Characters"
+      ]
+    },
+    {
+      id: 3,
+      name: "Characters",
+      description: [
+        "Characters Name",
+        "Status",
+        "Type",
+        "Species",
+        "Gender",
+        "Origin Name",
+        "Image",
+        "Episodes"
+      ]
+    },
+    {
+      id: 4,
+      name: "Locations",
+      description: [
+        "Name",
+        "Type",
+        "Dimension",
+        "Residents"
+      ]
+    }
   ];
 
   return (
@@ -25,7 +63,13 @@ const CharacterTable = () => {
           {characters.map((character) => (
             <tr key={character.id}>
               <td>{character.name}</td>
-              <td>{character.description}</td>
+              <td>
+                <ul>
+                  {character.description.map((line, index) => (
+                    <li key={index}>{line}</li>
+                  ))}
+                </ul>
+              </td>
             </tr>
           ))}
         </tbody>
