@@ -1,5 +1,5 @@
 {
-  "homepage": "https://sudenurkomur.github.io/sudenurkomur.github.io",
+  "homepage": "https://sudenurkomur.github.io/rickandmortyAPI",
   "name": "try-video",
   "version": "0.1.0",
   "private": true,
@@ -14,8 +14,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -37,5 +37,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://rickandmortyapi.com"
+  "proxy": "https://rickandmortyapi.com",
+  "devDependencies": {
+    "gh-pages": "^6.2.0"
+  }
 }
