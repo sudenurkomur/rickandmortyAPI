@@ -146,7 +146,7 @@ const EpisodeTable = () => {
             id="search"
             value={searchTerm}
             onChange={handleSearchChange}
-            placeholder="Search by name"
+            placeholder="Search by episode name"
           />
         </div>
       </div>

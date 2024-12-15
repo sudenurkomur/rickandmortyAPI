@@ -5,13 +5,14 @@ import "./Table.css";
 const LocationTable = () => {
   const [locations, setLocations] = useState([]);
   const [residentNames, setResidentNames] = useState({});
-  const [currentPage, setCurrentPage] = useState(1); // Sayfa durumu
-  const [itemsPerPage, setItemsPerPage] = useState(5); // Sayfa başına gösterilecek location sayısı
-  const [totalPages, setTotalPages] = useState(1); // Toplam sayfa sayısı
-  const [loading, setLoading] = useState(true); // Loading durumu
-  const [error, setError] = useState(null); // Hata durumu için state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("normal"); // Filter to be applied (normal or planet-based)
+  const [searchQuery, setSearchQuery] = useState(""); // State for the search query
 
-  // Lokasyon verilerini çekerken sayfa parametresini kullan
   useEffect(() => {
     const fetchLocations = async () => {
       let allLocations = [];
@@ -24,13 +25,13 @@ const LocationTable = () => {
           const data = response.data;
           allLocations = [...allLocations, ...data.results];
           totalLocations = data.info.count;
-          if (data.info.pages === page) break; // Eğer son sayfaya gelindiyse döngüyü durdur
+          if (data.info.pages === page) break;
           page++;
         }
 
         setLocations(allLocations);
-        setTotalPages(Math.ceil(totalLocations / itemsPerPage)); // Sayfa sayısını hesapla
-        setLoading(false); // Veri yüklendikten sonra loading'i false yap
+        setTotalPages(Math.ceil(totalLocations / itemsPerPage));
+        setLoading(false);
       } catch (error) {
         setError("API ERROR");
         setLoading(false);
@@ -38,7 +39,7 @@ const LocationTable = () => {
     };
 
     fetchLocations();
-  }, [itemsPerPage]); // itemsPerPage değiştiğinde tekrar veri çek
+  }, [itemsPerPage]);
 
   useEffect(() => {
     const fetchResidents = async () => {
@@ -68,16 +69,40 @@ const LocationTable = () => {
   }, [locations]);
 
   const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value)); // Kullanıcının seçtiği sayfa başına location sayısını al
-    setCurrentPage(1); // Sayfa sıfırlanır çünkü yeni location sayısı ile yeni veriler alınacak
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1);
   };
 
-  // Sayfa başına gösterilecek verileri hesaplama
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
+
   const indexOfLastLocation = currentPage * itemsPerPage;
   const indexOfFirstLocation = indexOfLastLocation - itemsPerPage;
-  const currentLocations = locations.slice(indexOfFirstLocation, indexOfLastLocation);
 
-  // Sayfa değiştirme işlevi
+  // Apply filter based on type (planet or normal)
+  let filteredLocations = locations;
+  if (filter === "planet") {
+    filteredLocations = filteredLocations.filter((location) =>
+      location.type.toLowerCase().includes("planet")
+    );
+  }
+
+  // Filter based on search query
+  if (searchQuery) {
+    filteredLocations = filteredLocations.filter((location) =>
+      location.name.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  // Slice the filtered locations for pagination
+  filteredLocations = filteredLocations.slice(indexOfFirstLocation, indexOfLastLocation);
+
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -91,30 +116,51 @@ const LocationTable = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Veriler yüklenene kadar yükleme mesajı
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; // Hata durumunda "API ERROR" mesajını göster
+    return <div>{error}</div>;
   }
 
   return (
     <div className="table-container">
-      <h2>Locations</h2>
-      <div>
-        <label htmlFor="itemsPerPage">Locations per page: </label>
-        <select
-          id="itemsPerPage"
-          value={itemsPerPage}
-          onChange={handleItemsPerPageChange}
-        >
-          <option value={5}>5</option>
-          <option value={8}>8</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-        </select>
+      <div className="filter-controls">
+        <div>
+          <label htmlFor="itemsPerPage">Locations per page: </label>
+          <select
+            id="itemsPerPage"
+            value={itemsPerPage}
+            onChange={handleItemsPerPageChange}
+          >
+            <option value={5}>5</option>
+            <option value={8}>8</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
+        </div>
+        <br />
+        <div>
+          <label htmlFor="filter">Filter: </label>
+          <select id="filter" value={filter} onChange={handleFilterChange}>
+            <option value="normal">Normal</option>
+            <option value="planet">Planets</option>
+          </select>
+        </div>
+        <br />
+        <div>
+          <label htmlFor="search">Search by name: </label>
+          <input
+            type="text"
+            id="search"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search by locations name"
+          />
+        </div>
       </div>
 
+      <h2>Locations</h2>
       <table className="character-table">
         <thead>
           <tr>
@@ -125,7 +171,7 @@ const LocationTable = () => {
           </tr>
         </thead>
         <tbody>
-          {currentLocations.map((location) => (
+          {filteredLocations.map((location) => (
             <tr key={location.id}>
               <td>{location.name}</td>
               <td>{location.type}</td>
@@ -147,13 +193,12 @@ const LocationTable = () => {
         </tbody>
       </table>
 
-      {/* Sayfalama */}
       <div className="pagination">
         <button onClick={prevPage} disabled={currentPage === 1}>
           Previous
         </button>
         <span>
-          Page {currentPage} of {totalPages}
+          Page {currentPage} of {Math.ceil(filteredLocations.length / itemsPerPage)}
         </span>
         <button onClick={nextPage} disabled={currentPage === totalPages}>
           Next
