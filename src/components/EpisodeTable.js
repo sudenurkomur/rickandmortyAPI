@@ -5,14 +5,14 @@ import "./Table.css";
 const EpisodeTable = () => {
   const [episodes, setEpisodes] = useState([]);
   const [characters, setCharacters] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Sayfa durumu
-  const [episodesPerPage, setEpisodesPerPage] = useState(5); // Sayfa başına gösterilecek episode sayısı
+  const [currentPage, setCurrentPage] = useState(1);
+  const [episodesPerPage, setEpisodesPerPage] = useState(5);
   const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1); // Toplam sayfa sayısı
-  const [error, setError] = useState(null); // Hata durumu için state
+  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("time"); // Filtre durumu
 
   useEffect(() => {
-    // Tüm episode'ları almak için sayfa numaralarını döngüyle geziyoruz
     const fetchEpisodes = async () => {
       let allEpisodes = [];
       let page = 1;
@@ -24,15 +24,15 @@ const EpisodeTable = () => {
           const data = response.data;
           allEpisodes = [...allEpisodes, ...data.results];
           totalEpisodes = data.info.count;
-          if (data.info.pages === page) break; // Eğer son sayfaya gelindiyse döngüyü durdur
+          if (data.info.pages === page) break;
           page++;
         }
 
         setEpisodes(allEpisodes);
         setTotalPages(Math.ceil(totalEpisodes / episodesPerPage));
-        setLoading(false); // Veri yüklendikten sonra loading'i false yap
+        setLoading(false);
       } catch (error) {
-        setError("API ERROR"); // API hatası durumunda hata mesajı ayarla
+        setError("API ERROR");
         setLoading(false);
       }
     };
@@ -41,41 +41,48 @@ const EpisodeTable = () => {
   }, [episodesPerPage]);
 
   useEffect(() => {
-    if (episodes.length === 0) return; // Eğer episode'lar yoksa, karakterleri yüklemeyi geç
+    if (episodes.length === 0) return;
 
-    // Episode verilerini aldıktan sonra, karakter URL'lerine istek yap
     const fetchCharacterData = async () => {
       let allCharacters = [];
 
       for (const episode of episodes) {
         const episodeCharacters = await Promise.all(
           episode.characters.map((characterUrl) =>
-            axios.get(characterUrl).then((response) => response.data.name) // Her karakterin adını alıyoruz
+            axios.get(characterUrl).then((response) => response.data.name)
           )
         );
-        allCharacters.push(episodeCharacters); // Karakter isimlerini allCharacters dizisine ekliyoruz
+        allCharacters.push(episodeCharacters);
       }
 
-      setCharacters(allCharacters); // Tüm karakter isimlerini state'e ekliyoruz
+      setCharacters(allCharacters);
     };
 
     fetchCharacterData();
   }, [episodes]);
 
   if (loading) {
-    return <div>Loading...</div>; // Veriler yüklenene kadar yükleme mesajı
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; // Hata durumunda "API ERROR" mesajını göster
+    return <div>{error}</div>;
   }
 
-  // Sayfa başına alınacak episode'ları hesaplama
+  const handleFilterChange = (e) => {
+    const selectedFilter = e.target.value;
+    setFilter(selectedFilter);
+    if (selectedFilter === "time") {
+      setEpisodes([...episodes].sort((a, b) => a.id - b.id));
+    } else if (selectedFilter === "alphabetically") {
+      setEpisodes([...episodes].sort((a, b) => a.name.localeCompare(b.name)));
+    }
+  };
+
   const indexOfLastEpisode = currentPage * episodesPerPage;
   const indexOfFirstEpisode = indexOfLastEpisode - episodesPerPage;
   const currentEpisodes = episodes.slice(indexOfFirstEpisode, indexOfLastEpisode);
 
-  // Sayfa değiştirme işlevi
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -89,8 +96,8 @@ const EpisodeTable = () => {
   };
 
   const handleEpisodesPerPageChange = (e) => {
-    setEpisodesPerPage(Number(e.target.value)); // Kullanıcının seçtiği sayfa başına episode sayısını al
-    setCurrentPage(1); // Sayfa sıfırlanır çünkü yeni episode sayısı ile yeni veriler alınacak
+    setEpisodesPerPage(Number(e.target.value));
+    setCurrentPage(1);
   };
 
   return (
@@ -109,7 +116,14 @@ const EpisodeTable = () => {
           <option value={20}>20</option>
         </select>
       </div>
-      
+      <div>
+        <label htmlFor="filter">Filter: </label>
+        <select id="filter" value={filter} onChange={handleFilterChange}>
+          <option value="time">Filter with time</option>
+          <option value="alphabetically">Alphabetically A-Z</option>
+        </select>
+      </div>
+
       <table className="character-table">
         <thead>
           <tr>
@@ -127,7 +141,7 @@ const EpisodeTable = () => {
               <td>{episode.air_date}</td>
               <td>
                 {characters[index] && characters[index].length > 0
-                  ? characters[index].join(", ") // Karakter isimlerini virgülle ayırarak gösteriyoruz
+                  ? characters[index].join(", ")
                   : "No characters"}
               </td>
             </tr>
@@ -135,7 +149,6 @@ const EpisodeTable = () => {
         </tbody>
       </table>
 
-      {/* Sayfalama Düğmeleri */}
       <div className="pagination">
         <button onClick={prevPage} disabled={currentPage === 1}>
           Previous
