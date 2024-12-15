@@ -6,7 +6,7 @@ const EpisodeTable = () => {
   const [episodes, setEpisodes] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Sayfa durumu
-  const [episodesPerPage] = useState(5); // Her sayfada gösterilecek episode sayısı
+  const [episodesPerPage, setEpisodesPerPage] = useState(5); // Sayfa başına gösterilecek episode sayısı
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1); // Toplam sayfa sayısı
   const [error, setError] = useState(null); // Hata durumu için state
@@ -88,9 +88,28 @@ const EpisodeTable = () => {
     }
   };
 
+  const handleEpisodesPerPageChange = (e) => {
+    setEpisodesPerPage(Number(e.target.value)); // Kullanıcının seçtiği sayfa başına episode sayısını al
+    setCurrentPage(1); // Sayfa sıfırlanır çünkü yeni episode sayısı ile yeni veriler alınacak
+  };
+
   return (
     <div className="table-container">
       <h2>Episodes</h2>
+      <div>
+        <label htmlFor="episodesPerPage">Episodes per page: </label>
+        <select
+          id="episodesPerPage"
+          value={episodesPerPage}
+          onChange={handleEpisodesPerPageChange}
+        >
+          <option value={5}>5</option>
+          <option value={8}>8</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+        </select>
+      </div>
+      
       <table className="character-table">
         <thead>
           <tr>
