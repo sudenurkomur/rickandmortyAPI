@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-[https://sudenurkomur.github.io/]((https://sudenurkomur.github.io/episodes))
+[https://sudenurkomur.github.io/](https://sudenurkomur.github.io/episodes)
 
 ## Available Scripts
 
