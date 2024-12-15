@@ -10,8 +10,8 @@ const LocationTable = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState("normal"); // Filter to be applied (normal or planet-based)
-  const [searchQuery, setSearchQuery] = useState(""); // State for the search query
+  const [filter, setFilter] = useState("normal");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -75,7 +75,7 @@ const LocationTable = () => {
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
-    setCurrentPage(1); // Reset to first page when filter changes
+    setCurrentPage(1);
   };
 
   const handleSearchChange = (e) => {
@@ -85,7 +85,6 @@ const LocationTable = () => {
   const indexOfLastLocation = currentPage * itemsPerPage;
   const indexOfFirstLocation = indexOfLastLocation - itemsPerPage;
 
-  // Apply filter based on type (planet or normal)
   let filteredLocations = locations;
   if (filter === "planet") {
     filteredLocations = filteredLocations.filter((location) =>
@@ -93,14 +92,12 @@ const LocationTable = () => {
     );
   }
 
-  // Filter based on search query
   if (searchQuery) {
     filteredLocations = filteredLocations.filter((location) =>
       location.name.toLowerCase().includes(searchQuery)
     );
   }
 
-  // Slice the filtered locations for pagination
   filteredLocations = filteredLocations.slice(indexOfFirstLocation, indexOfLastLocation);
 
   const nextPage = () => {
@@ -127,7 +124,7 @@ const LocationTable = () => {
     <div className="table-container">
       <div className="filter-controls">
         <div>
-          <label htmlFor="itemsPerPage">Locations per page: </label>
+          <label htmlFor="itemsPerPage">Items per page: </label>
           <select
             id="itemsPerPage"
             value={itemsPerPage}
@@ -198,7 +195,7 @@ const LocationTable = () => {
           Previous
         </button>
         <span>
-          Page {currentPage} of {Math.ceil(filteredLocations.length / itemsPerPage)}
+          Page {currentPage} of {totalPages}
         </span>
         <button onClick={nextPage} disabled={currentPage === totalPages}>
           Next

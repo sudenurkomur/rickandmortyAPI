@@ -59,16 +59,16 @@
   font-weight: bold;
 }
 
-/* Filtre ve arama kutularının düzeni */
+
 .filter-controls {
   display: flex;
   gap: 20px; /* Elemanlar arasında boşluk bırakır*/
-  align-items: center; /* Dikeyde ortalama sağlanan kısım*/
+  align-items: center; /* Dikeyde ortalama sağlanan part*/
   margin-bottom: 20px; /* Filtre kontrolü ile tablo arasındaki space*/
 }
 
 .filter-controls label {
-  margin-right: 8px; /* Etiketlerle input arasına boşluk ekler */
+  margin-right: 8px; 
 }
 
 .filter-controls select, .filter-controls input {

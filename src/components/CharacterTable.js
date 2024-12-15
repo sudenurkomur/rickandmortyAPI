@@ -113,7 +113,7 @@ const CharacterTable = () => {
         <div>
           <label htmlFor="filter">Filter: </label>
           <select id="filter" value={filter} onChange={handleFilterChange}>
-            <option value="normal">Normal (API'den Çekilen)</option>
+            <option value="normal">Normal</option>
             <option value="alphabetically">Sort Alphabetically</option>
             <option value="alive">Show Only Alive Characters</option>
             <option value="male">Show Only Male Characters</option> {/* Yeni filtre */}

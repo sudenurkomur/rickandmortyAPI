@@ -1,9 +1,9 @@
-/* Navbar stil */
+
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Logo ile menüyü birbirinden uzak tutar */
-  background-color: #001f3f; /* Lacivert */
+  background-color: #001f3f; 
   color: white;
   padding: 15px 30px;
 }
@@ -11,14 +11,14 @@
 /* Logo stil */
 .navbar-logo {
   height: 70px; /* Logo yüksekliği */
-  width: auto;  /* Orantılı genişlik */
+  width: auto;  
 }
 
 /* Menü stili */
 .navbar-menu {
   display: flex;
-  gap: 100px; /* Menü elemanları arasında mesafe */
-  list-style: none; /* Madde işaretlerini kaldır */
+  gap: 80px; /* Menü elemanları arasında mesafe */
+  list-style: none; 
   margin: 0;
   padding: 0;
 }
@@ -30,23 +30,23 @@
   font-size: 18px;
   cursor: pointer;
   color: white;
-  text-decoration: none; /* Alt çizgiyi kaldır */
+  text-decoration: none; 
 }
 
 /* Menü öğesinin hover efekti */
 .navbar-link:hover {
-  color: #ffcc00; /* Altın sarısı renk */
-  transition: color 0.5s ease; /* Renk geçişi animasyonu */
+  color: #ffcc00; 
+  transition: color 0.5s ease; 
 }
 
 /* Menü simgeleri */
 .navbar-menu-icon {
-  height: 30px; /* Simge yüksekliği */
-  width: auto;  /* Orantılı genişlik */
-  margin-right: 10px; /* Metin ile simge arasında mesafe */
+  height: 30px; 
+  width: auto;  
+  margin-right: 10px; 
 }
 
 /* Menü öğelerini sağa kaydırmak için */
 .navbar-right {
-  margin-left: auto; /* Menü elemanlarını sola kaydırır */
+  margin-left: auto; 
 }

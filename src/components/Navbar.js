@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Link import edilmelidir
-import logo from "../assets/images/logo.png";  // Logo dosyasını doğru yoldan içe aktarın
+import { Link } from "react-router-dom"; 
+import logo from "../assets/images/logo.png";  
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -19,6 +19,9 @@ const Navbar = () => {
         </li>
         <li className="navbar-menu-item">
           <Link to="/locations" className="navbar-link">Locations</Link>
+        </li>
+        <li className="navbar-menu-item">
+          <Link to="/locations" className="navbar-link"></Link>
         </li>
       </ul>
     </nav>
