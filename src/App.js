@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // React Router bileşenlerini ekliyoruz
 import Navbar from "./components/Navbar";
 import Dropdown from "./components/Dropdown";
 import Footer from "./components/Footer";
@@ -11,18 +12,25 @@ import EpisodeTable from "./components/EpisodeTable";
 
 const App = () => {
   return (
-    <div className="app-container">
-      <Navbar />
-      <div className="dropdown-container">
-        <Dropdown />
-        <SearchBar />        
+    <Router>
+      <div className="app-container">
+        <Navbar />
+        <div className="dropdown-container">
+          <Dropdown />
+          <SearchBar />
+        </div>
+
+        {/* React Router Routes */}
+        <Routes>
+          <Route path="/" element={<InformationTable />} />
+          <Route path="/episodes" element={<EpisodeTable />} />
+          <Route path="/characters" element={<CharacterTable />} />
+          <Route path="/locations" element={<LocationTable />} />
+        </Routes>
+
+        <Footer />
       </div>
-      {/*InformationTable/> */}
-      {/*<EpisodeTable />*/}
-      {/*<CharacterTable />*/}
-      <LocationTable/>
-      <Footer />
-    </div>
+    </Router>
   );
 };
 
