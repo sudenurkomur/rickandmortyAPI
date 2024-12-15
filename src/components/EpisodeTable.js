@@ -8,17 +8,37 @@ const EpisodeTable = () => {
   const [currentPage, setCurrentPage] = useState(1); // Sayfa durumu
   const [episodesPerPage] = useState(5); // Her sayfada gösterilecek episode sayısı
   const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState(1); // Toplam sayfa sayısı
+  const [error, setError] = useState(null); // Hata durumu için state
 
   useEffect(() => {
-    // Episode verilerini al
-    axios
-      .get("https://rickandmortyapi.com/api/episode")
-      .then((response) => {
-        setEpisodes(response.data.results);
+    // Tüm episode'ları almak için sayfa numaralarını döngüyle geziyoruz
+    const fetchEpisodes = async () => {
+      let allEpisodes = [];
+      let page = 1;
+      let totalEpisodes = 0;
+
+      try {
+        while (true) {
+          const response = await axios.get(`https://rickandmortyapi.com/api/episode?page=${page}`);
+          const data = response.data;
+          allEpisodes = [...allEpisodes, ...data.results];
+          totalEpisodes = data.info.count;
+          if (data.info.pages === page) break; // Eğer son sayfaya gelindiyse döngüyü durdur
+          page++;
+        }
+
+        setEpisodes(allEpisodes);
+        setTotalPages(Math.ceil(totalEpisodes / episodesPerPage));
         setLoading(false); // Veri yüklendikten sonra loading'i false yap
-      })
-      .catch((error) => console.error("Episode API Error:", error));
-  }, []);
+      } catch (error) {
+        setError("API ERROR"); // API hatası durumunda hata mesajı ayarla
+        setLoading(false);
+      }
+    };
+
+    fetchEpisodes();
+  }, [episodesPerPage]);
 
   useEffect(() => {
     if (episodes.length === 0) return; // Eğer episode'lar yoksa, karakterleri yüklemeyi geç
@@ -30,13 +50,13 @@ const EpisodeTable = () => {
       for (const episode of episodes) {
         const episodeCharacters = await Promise.all(
           episode.characters.map((characterUrl) =>
-            axios.get(characterUrl).then((response) => response.data.name)
+            axios.get(characterUrl).then((response) => response.data.name) // Her karakterin adını alıyoruz
           )
         );
-        allCharacters.push(episodeCharacters);
+        allCharacters.push(episodeCharacters); // Karakter isimlerini allCharacters dizisine ekliyoruz
       }
 
-      setCharacters(allCharacters);
+      setCharacters(allCharacters); // Tüm karakter isimlerini state'e ekliyoruz
     };
 
     fetchCharacterData();
@@ -46,6 +66,10 @@ const EpisodeTable = () => {
     return <div>Loading...</div>; // Veriler yüklenene kadar yükleme mesajı
   }
 
+  if (error) {
+    return <div>{error}</div>; // Hata durumunda "API ERROR" mesajını göster
+  }
+
   // Sayfa başına alınacak episode'ları hesaplama
   const indexOfLastEpisode = currentPage * episodesPerPage;
   const indexOfFirstEpisode = indexOfLastEpisode - episodesPerPage;
@@ -53,7 +77,7 @@ const EpisodeTable = () => {
 
   // Sayfa değiştirme işlevi
   const nextPage = () => {
-    if (currentPage < Math.ceil(episodes.length / episodesPerPage)) {
+    if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -84,7 +108,7 @@ const EpisodeTable = () => {
               <td>{episode.air_date}</td>
               <td>
                 {characters[index] && characters[index].length > 0
-                  ? characters[index].join(", ")
+                  ? characters[index].join(", ") // Karakter isimlerini virgülle ayırarak gösteriyoruz
                   : "No characters"}
               </td>
             </tr>
@@ -98,9 +122,9 @@ const EpisodeTable = () => {
           Previous
         </button>
         <span>
-          {currentPage} of {Math.ceil(episodes.length / episodesPerPage)}
+          Page {currentPage} of {totalPages}
         </span>
-        <button onClick={nextPage} disabled={currentPage === Math.ceil(episodes.length / episodesPerPage)}>
+        <button onClick={nextPage} disabled={currentPage === totalPages}>
           Next
         </button>
       </div>

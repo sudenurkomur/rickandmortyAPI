@@ -2,27 +2,44 @@ import React, { useEffect, useState } from "react";
 import "./Table.css";
 
 const CharacterTable = () => {
-  const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState([]); // Tüm karakterler
   const [currentPage, setCurrentPage] = useState(1); // Mevcut sayfa
-  const itemsPerPage = 4; // Her sayfada gösterilecek karakter sayısı
+  const [itemsPerPage, setItemsPerPage] = useState(5); // Sayfa başına karakter sayısı (başlangıçta 5)
+  const [totalPages, setTotalPages] = useState(1); // Toplam sayfa sayısı
+  const [totalCharacters, setTotalCharacters] = useState(0); // Toplam karakter sayısı
+  const [error, setError] = useState(null); // Hata durumu
 
+  // API'den karakterleri alıyoruz
   useEffect(() => {
-    // API'den karakterleri alıyoruz
-    fetch("https://rickandmortyapi.com/api/character")
-      .then((response) => response.json())
-      .then((data) => setCharacters(data.results))
-      .catch((error) => console.error("API Error:", error));
-  }, []);
+    const fetchCharacters = async () => {
+      let allCharacters = []; // Tüm karakterleri tutacak dizi
+      let page = 1; // Başlangıç sayfası
+      let totalPages = 1; // Toplam sayfa sayısı
+      try {
+        // API'den ilk sayfayı al
+        while (page <= totalPages) {
+          const response = await fetch(
+            `https://rickandmortyapi.com/api/character?page=${page}`
+          );
+          const data = await response.json();
+          allCharacters = allCharacters.concat(data.results); // Yeni sayfadaki karakterleri mevcut listeye ekle
+          totalPages = data.info.pages; // Toplam sayfa sayısını güncelle
+          page++; // Bir sonraki sayfaya geç
+        }
 
-  // Mevcut sayfada görüntülenecek karakterleri hesaplama
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCharacters = characters.slice(indexOfFirstItem, indexOfLastItem);
+        setCharacters(allCharacters); // Tüm karakterleri set et
+        setTotalCharacters(allCharacters.length); // Toplam karakter sayısını güncelle
+        setTotalPages(Math.ceil(allCharacters.length / itemsPerPage)); // Toplam sayfa sayısını hesapla
+        setError(null); // Hata durumu sıfırlanır
+      } catch (error) {
+        setError("API ERROR"); // API hatası durumunda error mesajını ayarla
+      }
+    };
 
-  // Toplam sayfa sayısını hesaplama
-  const totalPages = Math.ceil(characters.length / itemsPerPage);
+    fetchCharacters();
+  }, [itemsPerPage]); // itemsPerPage değiştiğinde verileri yeniden çek
 
-  // Sayfa değiştirme işlemleri
+  // Sayfa değiştiğinde, yeni verileri ayarlıyoruz
   const handleNext = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -35,9 +52,32 @@ const CharacterTable = () => {
     }
   };
 
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value)); // Kullanıcının seçtiği sayfa başına öğe sayısını al
+    setCurrentPage(1); // Sayfa sıfırlanır çünkü yeni öğe sayısı ile yeni veriler alınacak
+  };
+
+  // Sayfa başına gösterilecek öğe sayısına göre karakterleri ayarlıyoruz
+  const indexOfLastCharacter = currentPage * itemsPerPage;
+  const indexOfFirstCharacter = indexOfLastCharacter - itemsPerPage;
+  const currentCharacters = characters.slice(indexOfFirstCharacter, indexOfLastCharacter);
+
   return (
     <div className="table-container">
       <h2>Rick and Morty Characters</h2>
+      {error && <div className="error-message">{error}</div>} {/* Hata mesajı */}
+      
+      {/* Sayfa başına gösterilecek öğe sayısını seçme */}
+      <div>
+        <label htmlFor="itemsPerPage">Items per page: </label>
+        <select id="itemsPerPage" value={itemsPerPage} onChange={handleItemsPerPageChange}>
+          <option value={5}>5</option>
+          <option value={8}>8</option>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+        </select>
+      </div>
+
       <table className="character-table">
         <thead>
           <tr>
@@ -58,7 +98,7 @@ const CharacterTable = () => {
               <td>{character.id}</td>
               <td>{character.name}</td>
               <td>{character.status}</td>
-              <td>{character.type}</td>
+              <td>{character.type || ""}</td>
               <td>{character.species}</td>
               <td>{character.gender}</td>
               <td>{character.origin.name}</td> {/* Origin Name */}

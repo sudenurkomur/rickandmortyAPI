@@ -16,8 +16,8 @@ const App = () => {
       <div className="app-container">
         <Navbar />
         <div className="dropdown-container">
-          <Dropdown />
-          <SearchBar />
+          {/*<Dropdown />
+          <SearchBar />*/}
         </div>
 
         {/* React Router Routes */}

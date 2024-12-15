@@ -44,7 +44,7 @@ const CharacterTable = () => {
         "Name",
         "Type",
         "Dimension",
-        "Residents"
+        "Residents "
       ]
     }
   ];
